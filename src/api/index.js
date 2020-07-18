@@ -1,7 +1,9 @@
 
 export const apiHost = 'http://localhost:3001'
-const storedUserKey = 'CurrentUser'
+import { removeUser} from '../actions';
+import { history } from '../index';
 
+const storedUserKey = 'CurrentUser'
 class ApiService {
   constructor() {
     this.apiUrl = `${apiHost}/api/v1`
@@ -34,7 +36,6 @@ class ApiService {
     }
   }
 
-
   patch = async (url, body, needAuth, token) => {
     try {
       const resp = await this.makeRequest({
@@ -60,11 +61,11 @@ class ApiService {
       })
       return this.handleResponse(resp)
     } catch (error) {
-      console.log(error)
       this.handleError(error)
       return Promise.reject(error)
     }
   }
+
   delete = async url => {
     try {
       const resp = await this.makeRequest({
@@ -85,14 +86,23 @@ class ApiService {
         message
       }
     }
+    if(error.status == 401){
+      this.logoutUser();
+    }
     return Promise.reject({
       ...error,
       ...{message},
     })
   }
 
+  logoutUser(){
+    removeUser();
+    history.push('/login')
+    window.location.reload();
+  }
+
   handleError = error => {
-    // console.log(error)
+    console.log('error => ', error)
   }
 
   makeRequest = async ({
