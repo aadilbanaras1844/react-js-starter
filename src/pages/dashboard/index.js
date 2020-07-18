@@ -7,6 +7,8 @@ import { Switch, Route } from 'react-router-dom'
 import LeadsPage from './leads';
 import StaffPage from './staff';
 import DashboardHome from './dashboard';
+import SuperAdminRoute from '../../routes/SuperAdminRoute';
+import StaffRoute from '../../routes/StaffRoute';
 
 class Dashboard extends React.Component {
   render() {
@@ -27,8 +29,8 @@ class Dashboard extends React.Component {
             </h2>
             <Switch>
                 <Route exact path="/dashboard" component={DashboardHome} />
-                <Route path="/dashboard/leads" component={LeadsPage} />
-                <Route path="/dashboard/staff" component={StaffPage} />
+                <StaffRoute path="/dashboard/leads" component={LeadsPage} />
+                <SuperAdminRoute path="/dashboard/staff" component={StaffPage} />
             </Switch>
             
         </div>

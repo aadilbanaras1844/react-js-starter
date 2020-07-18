@@ -1,12 +1,12 @@
 
 import React from 'react';
-import { getLeads, deleteLead } from '../../../actions';
+import { getStaffs, deleteStaff } from '../../../actions';
 import Table from 'react-bootstrap/Table';
-import './leads.scss';
+import './staff.scss';
 import { Link } from 'react-router-dom'
 import Breadcrumb from 'react-bootstrap/Breadcrumb';
 
-class Leads extends React.Component {
+class Staffs extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -17,10 +17,10 @@ class Leads extends React.Component {
 
   async componentDidMount(){
         try {
-          const leads = await getLeads();
+          const staffs = await getStaffs();
           this.setState({
             isLoaded: true,
-            items: leads.data
+            items: staffs.data
           })
         } catch (error) {
           this.setState({
@@ -35,8 +35,8 @@ class Leads extends React.Component {
 
 
   render() {
-    const deletelead = async (id) =>{
-      await deleteLead(id);
+    const deletestaff = async (id) =>{
+      await deleteStaff(id);
       this.componentDidMount()
     }
     const { error, isLoaded, items } = this.state;
@@ -44,12 +44,12 @@ class Leads extends React.Component {
     return <>
     <Breadcrumb>
         <Breadcrumb.Item href="/dashboard">Dashboard</Breadcrumb.Item>
-        <Breadcrumb.Item active>Leads</Breadcrumb.Item>
+        <Breadcrumb.Item active>Staffs</Breadcrumb.Item>
     </Breadcrumb>
         <h2>
-          Leads Page
-          <Link to='/dashboard/leads/add' className="float-right btn btn-success">
-                Add new Lead
+          Staffs Page
+          <Link to='/dashboard/staff/add' className="float-right btn btn-success">
+                Add new Staff
             </Link>
         </h2>
 
@@ -62,9 +62,9 @@ class Leads extends React.Component {
           <thead>
             <tr>
               <th>ID</th>
-              <th>Name</th>
-              <th>Phone</th>
-              <th>Email</th>
+              <th>First Name</th>
+              <th>Last Name</th>
+              <th>Username</th>
               <th>Actions</th>
             </tr>
           </thead>
@@ -72,21 +72,21 @@ class Leads extends React.Component {
           { 
             items.length === 0 &&
             <tr >
-              <td colSpan="5" className="text-center">No lead added</td>
+              <td colSpan="5" className="text-center">No staff added</td>
             </tr>
           }
           
           {items.map((row, index) => (
             <tr key={index}>
               <td> {row.id} </td>
-              <td> {row.name} </td>
-              <td> {row.phone} </td>
-              <td> {row.email} </td>
+              <td> {row.first_name} </td>
+              <td> {row.last_name} </td>
+              <td> {row.username} </td>
               <td className="actions">
-                <Link to={`/dashboard/leads/${row.id}`} className="btn btn-sm btn-success">
+                <Link to={`/dashboard/staff/${row.id}`} className="btn btn-sm btn-success">
                     Edit
                 </Link>
-                <span className="btn btn-sm btn-danger delete" onClick={()=>deletelead(row.id)}>Delete</span>
+                <span className="btn btn-sm btn-danger delete" onClick={()=>deletestaff(row.id)}>Delete</span>
               </td>
             </tr>
           ))}
@@ -102,4 +102,4 @@ class Leads extends React.Component {
     </>
   }
 }
-export default Leads
+export default Staffs

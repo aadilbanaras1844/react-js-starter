@@ -1,13 +1,20 @@
 
 import React from 'react';
+import { Switch, Route } from 'react-router-dom'
 
+import ListStaff from './liststaff';
+import AddStaff from './addstaff';
+import EditStaff from './editstaff';
 
-class Staff extends React.Component {
+class Staffs extends React.Component {
   render() {
-
     return <>
-        <h1>Staff PAge</h1>
+      <Switch>
+          <Route exact path="/dashboard/staff" component={ListStaff} />
+          <Route path="/dashboard/staff/add" component={AddStaff} />
+          <Route path="/dashboard/staff/:id" component={EditStaff} />
+      </Switch>
     </>
   }
 }
-export default Staff
+export default Staffs
